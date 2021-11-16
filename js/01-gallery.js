@@ -7,6 +7,7 @@ console.log(galleryItems);
 //tworzenie znacznika
 
 const gallery = document.querySelector(".gallery");
+
 const elements = [];
 
 for (const galleryItem of galleryItems) {
@@ -40,11 +41,13 @@ gallery.addEventListener("click", selectImage);
 
 function selectImage(event) {
   event.preventDefault();
-  console.log("------------------------------");
-  console.log(event.target.src);
-  const selectedImage = event.target.alt;
-  console.log(`Selected Image: ${selectedImage}`);
-  const url = event.target.dataset.source;
-  console.log(url);
-  return;
+  const instance = basicLightbox.create(`<img src="${event.target.dataset.source}" alt="${event.target.alt}">`)
+  instance.show();
+  if (instance.visible() === true) {
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        instance.close();
+      }
+    })
+  }
 }
